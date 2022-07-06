@@ -17,6 +17,7 @@ const App = () => {
   return (
     <SafeAreaView style =  {styles.container}>
       <StatusBar
+        backgroundColor = {"#120D29"}
         barStyle = {"light-content"}
       />
       <Text
@@ -39,6 +40,11 @@ const App = () => {
         onSubmitEditing = {Keyboard.dismiss}
         defaultValue = {taskName}
         />
+      </View>
+      <View
+        style = {styles.filterContainer}
+      >
+
       </View>
     </SafeAreaView>
   );
@@ -80,6 +86,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     color: "#000"
+  },
+  filterContainer: {
+    height: 40
   }
 });
 
