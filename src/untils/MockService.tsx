@@ -6,7 +6,7 @@ import Flag from "../common/Flag";
 
 const MockService: Service = {
   doneTask: [
-    {date: new Date(), name: "First", flag: Flag.done}
+    {date: new Date(), name: "Test: first done task", flag: Flag.done}
   ],
   unfinishedTask: [],
   query: '',

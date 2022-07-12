@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import HomeView from './src/components/HomeView';
+import { HomeView } from './src/components/HomeView';
 
 const App = () => {
   return (
