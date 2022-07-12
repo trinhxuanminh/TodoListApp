@@ -5,7 +5,9 @@ import Filter from "../common/Filter";
 import Flag from "../common/Flag";
 
 const MockService: Service = {
-  doneTask: [],
+  doneTask: [
+    {date: new Date(), name: "First", flag: Flag.done}
+  ],
   unfinishedTask: [],
   query: '',
   filter: Filter.all,
@@ -26,11 +28,11 @@ const MockService: Service = {
         break
       }
       case Filter.done: {
-        result = this.doneTask
+        result = this.doneTask.concat()
         break
       }
       case Filter.unfinished: {
-        result = this.unfinishedTask
+        result = this.unfinishedTask.concat()
         break
       }
     }

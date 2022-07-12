@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { MenuProvider } from 'react-native-popup-menu';
-import Home from './src/components/Home';
+import HomeView from './src/components/HomeView';
 
 const App = () => {
   return (
-    <Home/>
+    <HomeView/>
   )
 }
 export default App;

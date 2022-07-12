@@ -70,6 +70,14 @@ const StyleHome = StyleSheet.create({
     marginLeft: 8,
     color: "#727272"
   },
+  filterMenu: {
+    backgroundColor: "#232229",
+    paddingHorizontal: 12
+  },
+  filterMenuItem: {
+    fontSize: 14,
+    color: "#FFFFFF"
+  },
   splitView: {
     width: "100%",
     height: 1,

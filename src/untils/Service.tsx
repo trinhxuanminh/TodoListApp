@@ -1,5 +1,5 @@
 import React from "react";
-import { ITask } from "./ITask";
+import { ITask } from "../common/ITask";
 import Filter from "../common/Filter";
 
 export interface Service {
