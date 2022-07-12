@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  Button,
   TextInput, 
   Text, 
   View, 
@@ -8,36 +7,45 @@ import {
   StatusBar, 
   Image,
   Keyboard,
-  FlatList
+  FlatList,
+  TouchableOpacity,
+  Alert
 } from 'react-native'
 import AppCommon from '../common';
 import AppTheme from '../theme';
 import AppColor from '../assets/AppColor';
+import { Service } from '../untils/Service';
+import MockService from '../untils/MockService';
+import { ITask } from '../untils/ITask';
+import Filter from '../common/Filter';
+import Flag from '../common/Flag';
 
 const Home = () => {
-  const [taskName, setTaskName] = useState('')
+  const [filterName, setFilterName] = useState('')
+  const service: Service = MockService
   const [filter, setFilter] = useState(AppCommon.Filter.all)
+  const [listTask, setListTask] = useState(new Array<ITask>())
 
-  const [listTask, setListTask] = useState([
-    {id: "1", name: "Tom"},
-    {id: "2", name: "Jerry"},
-    {id: "3", name: "Tom"},
-    {id: "4", name: "Jerry"},
-    {id: "5", name: "Tom"},
-    {id: "6", name: "Để việc tổ chức bố cục của project được hiệu quả bạn cần xác định được các nhóm resource"},
-    {id: "7", name: "Tom"},
-    {id: "8", name: "Jerry"},
-    {id: "9", name: "Tom"},
-    {id: "10", name: "Jerry"},
-    {id: "11", name: "Tom"},
-    {id: "12", name: "Jerry"},
-    {id: "13", name: "Tom"},
-    {id: "14", name: "Jerry"},
-    {id: "15", name: "Tom"},
-    {id: "16", name: "Jerry"},
-    {id: "17", name: "Tom"},
-    {id: "18", name: "Jerry"}
-  ])
+  const showAddView = () => {
+    Alert.prompt(
+      "Thêm nhiệm vụ",
+      "Nhập vào công việc bạn muốn thực hiện",
+      [
+        {
+          text: "Huỷ",
+          onPress: Keyboard.dismiss,
+          style: "cancel"
+        },
+        {
+          text: "Lưu",
+          onPress: (name) => {
+            Keyboard.dismiss()
+            setListTask(service.add(name))
+          }
+        }
+      ]
+    )
+  }
 
   return (
     <SafeAreaView style = {AppTheme.StyleHome.safeAreaView}>
@@ -53,10 +61,14 @@ const Home = () => {
         >
           Todo List
         </Text>
-        <Image
-          style = {AppTheme.StyleHome.titleImage}
-          source = {require('../assets/image/addTask.png')}
-        />
+        <TouchableOpacity
+          onPress = {showAddView}
+        >
+          <Image
+            style = {AppTheme.StyleHome.titleImage}
+            source = {require('../assets/image/addTask.png')}
+          />
+        </TouchableOpacity>
       </View>
       <View
         style = {AppTheme.StyleHome.inputView}
@@ -69,18 +81,22 @@ const Home = () => {
         style = {AppTheme.StyleHome.textInput}
         placeholder = {AppCommon.AppText.searchPlaceholder}
         returnKeyType = "search"
-        onChangeText = {newText => setTaskName(newText)}
-        onSubmitEditing = {Keyboard.dismiss}
-        defaultValue = {taskName}
+        onChangeText = {newText => setFilterName(newText)}
+        // onSubmitEditing = {submitEditing}
+        defaultValue = {filterName}
         />
       </View>
       <View
         style = {AppTheme.StyleHome.filterView}
       >
-        <Image
-          style = {AppTheme.StyleHome.filterImage}
-          source = {require('../assets/image/filter.png')}
-        />
+        <TouchableOpacity
+          // onPress = {}
+        >
+          <Image
+            style = {AppTheme.StyleHome.filterImage}
+            source = {require('../assets/image/filter.png')}
+          />
+        </TouchableOpacity>
         <Text
           style = {AppTheme.StyleHome.filterText}
         >
@@ -100,15 +116,30 @@ const Home = () => {
           data = {listTask}
           keyExtractor = {(item) => item.id}
           renderItem = {({item}) => (
-            <View
-              style = {AppTheme.StyleHome.taskItem}
+            <TouchableOpacity
+              onPress = {() => {
+                setListTask(service.changeFlag(item))
+              }}
             >
-              <Text
-                style = {AppTheme.StyleHome.nameTaskText}
+              <View
+                style = {AppTheme.StyleHome.taskItem}
               >
-                {item.name}
-              </Text>
-            </View>
+                <View
+                  style = {{
+                    backgroundColor: item.flag == Flag.done ? "#00FF00" : "#FFA500",
+                    width: 16,
+                    height: 16,
+                    borderRadius: 8
+                  }}
+                >
+                </View>
+                <Text
+                  style = {AppTheme.StyleHome.nameTaskText}
+                >
+                  {item.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
           )}
         />
       </View>
