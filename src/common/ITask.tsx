@@ -1,5 +1,5 @@
 import React from "react";
-import Flag from "../common/Flag";
+import Flag from "./Flag";
 
 export interface ITask {
   date: Date,

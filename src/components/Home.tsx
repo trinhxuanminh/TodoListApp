@@ -16,7 +16,7 @@ import AppTheme from '../theme';
 import AppColor from '../assets/AppColor';
 import { Service } from '../untils/Service';
 import MockService from '../untils/MockService';
-import { ITask } from '../untils/ITask';
+import { ITask } from '../common/ITask';
 import Filter from '../common/Filter';
 import Flag from '../common/Flag';
 
@@ -125,12 +125,9 @@ const Home = () => {
                 style = {AppTheme.StyleHome.taskItem}
               >
                 <View
-                  style = {{
-                    backgroundColor: item.flag == Flag.done ? "#00FF00" : "#FFA500",
-                    width: 12,
-                    height: 12,
-                    borderRadius: 6
-                  }}
+                  style = {[AppTheme.StyleHome.flagTaskView, {
+                    backgroundColor: item.flag == Flag.done ? "#00FF00" : "#FFA500"
+                  }]}
                 >
                 </View>
                 <Text

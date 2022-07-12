@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Service } from "./Service";
-import { ITask } from "./ITask";
+import { ITask } from "../common/ITask";
 import Filter from "../common/Filter";
 import Flag from "../common/Flag";
 

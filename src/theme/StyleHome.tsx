@@ -97,6 +97,11 @@ const StyleHome = StyleSheet.create({
     marginHorizontal: 12,
     color: "#FFF",
     textAlignVertical: "center"
+  },
+  flagTaskView: {
+    width: 12,
+    height: 12,
+    borderRadius: 6
   }
 });
 
