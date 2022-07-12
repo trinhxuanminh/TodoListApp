@@ -5,50 +5,89 @@ import Filter from "../common/Filter";
 import Flag from "../common/Flag";
 
 const MockService: Service = {
-  listTask: [
-    {id: "2", name: "Minh", flag: Flag.done},
-    {id: "1", name: "Mai", flag: Flag.unfinished},
-    {id: "0", name: "M", flag: Flag.done}
-  ],
+  doneTask: [],
+  unfinishedTask: [],
+  query: '',
+  filter: Filter.all,
 
-  fetch(): ITask[] {
-    return this.listTask
+  setQuery(input) {
+    this.query = input
   },
 
-  // search(input: string, filter: Filter): any {
-  //   return this.listTask.filter((item) => item.toLowerCase().indexOf(input.toLowerCase()) !== -1)
-  // },
+  setFilter(input) {
+    this.filter = input
+  },
 
-  // filter(result: any, filter: Filter): any {
+  fetch(): ITask[] {
+    var result: ITask[]
+    switch (this.filter) {
+      case Filter.all: {
+        result = this.unfinishedTask.concat(this.doneTask)
+        break
+      }
+      case Filter.done: {
+        result = this.doneTask
+        break
+      }
+      case Filter.unfinished: {
+        result = this.unfinishedTask
+        break
+      }
+    }
 
-  // },
+    result = result.sort((obj1, obj2) => {
+      if (obj1.date > obj2.date) {
+          return -1;
+      }
+      if (obj1.date < obj2.date) {
+          return 1;
+      }
+      return 0;
+    })
 
-  // check(input: string): any {
-
-  // },
+    if (!this.query || /^\s*$/.test(this.query)) {
+      return result
+    }
+    result = result.filter((item) => {
+      return item.name.toLowerCase().indexOf(this.query.toLowerCase()) !== -1
+    })
+    return result
+  },
 
   add(name: string | undefined): ITask[] {
     if (!name || /^\s*$/.test(name)) {
-      return this.listTask
+      return this.fetch()
     }
     let newTask: ITask = {
-      id: String(this.listTask.length),
+      date: new Date(),
       name: name,
       flag: Flag.unfinished
     }
-    this.listTask = [newTask].concat(this.listTask)
-    return this.listTask
+    this.unfinishedTask = [newTask].concat(this.unfinishedTask)
+    return this.fetch()
   },
 
   changeFlag(item: ITask): ITask[] {
-    let index = this.listTask.indexOf(item)
     let newTask: ITask = {
-      id: item.id,
+      date: item.date,
       name: item.name,
       flag: item.flag == Flag.unfinished ? Flag.done : Flag.unfinished
     }
-    this.listTask.splice(index, 1, newTask)
-    return this.listTask
+    switch (item.flag) {
+      case Flag.unfinished: {
+        let index = this.unfinishedTask.indexOf(item)
+        this.unfinishedTask.splice(index, 1)
+        this.doneTask = [newTask].concat(this.doneTask)
+        break
+      }
+      case Flag.done: {
+        let index = this.doneTask.indexOf(item)
+        this.doneTask.splice(index, 1)
+        this.unfinishedTask = [newTask].concat(this.unfinishedTask)
+        break
+      }
+    }
+    return this.fetch()
   }
 }
 

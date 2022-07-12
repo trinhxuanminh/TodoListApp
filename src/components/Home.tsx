@@ -21,9 +21,7 @@ import Filter from '../common/Filter';
 import Flag from '../common/Flag';
 
 const Home = () => {
-  const [filterName, setFilterName] = useState('')
   const service: Service = MockService
-  const [filter, setFilter] = useState(AppCommon.Filter.all)
   const [listTask, setListTask] = useState(new Array<ITask>())
 
   const showAddView = () => {
@@ -80,10 +78,13 @@ const Home = () => {
         <TextInput
         style = {AppTheme.StyleHome.textInput}
         placeholder = {AppCommon.AppText.searchPlaceholder}
-        returnKeyType = "search"
-        onChangeText = {newText => setFilterName(newText)}
-        // onSubmitEditing = {submitEditing}
-        defaultValue = {filterName}
+        returnKeyType = "done"
+        onChangeText = {newText => {
+          service.setQuery(newText)
+          setListTask(service.fetch())
+        }}
+        onSubmitEditing = {Keyboard.dismiss}
+        defaultValue = {service.query}
         />
       </View>
       <View
@@ -100,7 +101,7 @@ const Home = () => {
         <Text
           style = {AppTheme.StyleHome.filterText}
         >
-          {filter}
+          {service.filter}
         </Text>
       </View>
       <View
@@ -114,7 +115,6 @@ const Home = () => {
           showsVerticalScrollIndicator = {false}
           bounces = {false}
           data = {listTask}
-          keyExtractor = {(item) => item.id}
           renderItem = {({item}) => (
             <TouchableOpacity
               onPress = {() => {
@@ -127,9 +127,9 @@ const Home = () => {
                 <View
                   style = {{
                     backgroundColor: item.flag == Flag.done ? "#00FF00" : "#FFA500",
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8
+                    width: 12,
+                    height: 12,
+                    borderRadius: 6
                   }}
                 >
                 </View>
