@@ -39,6 +39,10 @@ export const HomeView = () => {
     setListTask(service.fetch())
   }
 
+  const changeFlag = (item: ITask) => {
+    setListTask(service.changeFlag(item))
+  }
+
   const showAddView = () => {
     Alert.prompt(
       AppCommon.AppText.titleAlert,
@@ -58,10 +62,6 @@ export const HomeView = () => {
         }
       ]
     )
-  }
-
-  const changeFlag = (item: ITask) => {
-    setListTask(service.changeFlag(item))
   }
 
   return (
