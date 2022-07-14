@@ -11,11 +11,16 @@ import {
   Menu,
   MenuItem
 } from "react-native-material-menu";
-import Filter from "../common/Filter";
-import AppTheme from "../theme";
+import Filter from "../../common/Filter";
+import AppTheme from "../../theme";
+import { connect } from "react-redux";
+import AppAction from "../../common/AppAction";
+import AppColor from "../../assets/AppColor";
 
+const FilterView = (props: any) => {
 
-export const FilterView = (props: any) => {
+  const filter = props.data.tasks.filters.filter
+  const filterTask = props.filterTask
   const [visible, setVisible] = useState(false)
 
   const hideMenu = () => setVisible(false)
@@ -24,7 +29,7 @@ export const FilterView = (props: any) => {
 
   const selectMenu = (filter: Filter) => {
     hideMenu()
-    props.selectMenu(filter)
+    filterTask(filter)
   }
 
   return (
@@ -40,7 +45,7 @@ export const FilterView = (props: any) => {
           >
             <Image
               style = {AppTheme.StyleHome.filterImage}
-              source = {require('../assets/image/filter.png')}
+              source = {require('../../assets/image/filter.png')}
             />
           </TouchableOpacity>
         }
@@ -60,7 +65,7 @@ export const FilterView = (props: any) => {
         >
           <View
             style = {[AppTheme.StyleHome.flagTaskView, {
-              backgroundColor: "#00FF00"
+              backgroundColor: AppColor.doneTask
             }]}
           />
           <Text
@@ -74,7 +79,7 @@ export const FilterView = (props: any) => {
         >
           <View
             style = {[AppTheme.StyleHome.flagTaskView, {
-              backgroundColor: "#FFA500"
+              backgroundColor: AppColor.unfinishedTask
             }]}
           />
           <Text
@@ -87,8 +92,24 @@ export const FilterView = (props: any) => {
       <Text
         style = {AppTheme.StyleHome.filterText}
       >
-        {props.filter}
+        {filter}
       </Text>
     </View>
   )
 }
+
+export default connect(
+  state => {
+    return {
+      data: state
+    }
+  },
+  dispatch => {
+    return {
+      filterTask: (filter: any) => dispatch({
+        type: AppAction.taskFiltered,
+        value: filter
+      })
+    }
+  }
+)(FilterView)

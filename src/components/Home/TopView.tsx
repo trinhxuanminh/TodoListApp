@@ -5,9 +5,9 @@ import {
   Image,
   TouchableOpacity
 } from "react-native"
-import AppTheme from "../theme"
+import AppTheme from "../../theme"
 
-export const TopView = (props: any) => {
+const TopView = (props: any) => {
   return (
     <View
       style = {AppTheme.StyleHome.titleView}
@@ -22,9 +22,11 @@ export const TopView = (props: any) => {
       >
         <Image
           style = {AppTheme.StyleHome.titleImage}
-          source = {require('../assets/image/addTask.png')}
+          source = {require('../../assets/image/addTask.png')}
         />
       </TouchableOpacity>
     </View>
   )
 }
+
+export default TopView

@@ -1,15 +1,11 @@
 import React from "react";
-import { ITask } from "../common/ITask";
+import ITask from "../common/ITask";
 import Filter from "../common/Filter";
 
-export interface Service {
-  doneTask: ITask[]
-  unfinishedTask: ITask[]
-  query: string
-  filter: Filter
-  setQuery(input: string): void
-  setFilter(input: Filter): void
-  fetch(): ITask[]
-  add(name: string | undefined): ITask[]
-  changeFlag(item: ITask): ITask[]
+interface Service {
+  filterTask(input: ITask[], filter: Filter): ITask[]
+  searchTask(input: ITask[], query: string): ITask[]
+  filters(input: ITask[], filter: Filter, query: string): ITask[]
 }
+
+export default Service
