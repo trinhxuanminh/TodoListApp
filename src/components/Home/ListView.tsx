@@ -15,6 +15,7 @@ import AppColor from "../../assets/AppColor";
 import Service from "../../untils/Service";
 import TaskService from "../../untils/TaskService";
 import MockService from "../../untils/MockService";
+import EmptyView from "../EmptyView";
 
 const ListView = (props: any) => {
 
@@ -34,6 +35,9 @@ const ListView = (props: any) => {
     <View
       style = {AppTheme.StyleHome.listView}
     >
+      { listTask.length == 0 &&
+        <EmptyView/>
+      }
       <FlatList
         style = {AppTheme.StyleHome.flatList}
         showsVerticalScrollIndicator = {false}

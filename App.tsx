@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import HomeView from './src/components/Home/HomeView';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from './src/features/configureStore';
+import HomeView from './src/components/Home/HomeView';
+import MockView from './src/components/MockView';
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
         persistor = {persistor}
       >
         <HomeView/>
+        {/* <MockView/> */}
       </PersistGate>
     </Provider>
   )

@@ -5,7 +5,8 @@ enum AppText {
   titleAlert = "Thêm nhiệm vụ",
   messageAlert = "Nhập vào công việc bạn muốn thực hiện",
   cancelAlert = "Huỷ",
-  saveAlert = "Lưu"
+  saveAlert = "Lưu",
+  emptyTask = "Không tìm thấy nhiệm vụ nào!"
 }
 
 export default AppText;

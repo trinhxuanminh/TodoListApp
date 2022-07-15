@@ -88,7 +88,8 @@ const StyleHome = StyleSheet.create({
     marginHorizontal: 16
   },
   flatList: {
-    flex: 1
+    flex: 1,
+    zIndex: 1
   },
   taskItem: {
     marginTop: 10,
