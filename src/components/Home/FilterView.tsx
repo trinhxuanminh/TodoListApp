@@ -19,7 +19,7 @@ import AppColor from "../../assets/AppColor";
 
 const FilterView = (props: any) => {
 
-  const filter = props.data.tasks.filters.filter
+  const filter = props.data.filters.filter
   const filterTask = props.filterTask
   const [visible, setVisible] = useState(false)
 
@@ -107,7 +107,7 @@ export default connect(
   dispatch => {
     return {
       filterTask: (filter: any) => dispatch({
-        type: AppAction.taskFiltered,
+        type: AppAction.filtered,
         value: filter
       })
     }

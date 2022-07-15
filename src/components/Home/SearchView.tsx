@@ -13,7 +13,7 @@ import AppColor from "../../assets/AppColor";
 
 const SearchView = (props: any) => {
 
-  const query = props.data.tasks.filters.query
+  const query = props.data.filters.query
   const searchTask = props.searchTask
 
   return (
@@ -46,7 +46,7 @@ export default connect(
   dispatch => {
     return {
       searchTask: (input: any) => dispatch({
-        type: AppAction.taskSearched,
+        type: AppAction.filtersSearched,
         value: input
       })
     }

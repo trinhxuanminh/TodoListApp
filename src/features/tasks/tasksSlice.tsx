@@ -1,30 +1,22 @@
 import ITask from "../../common/ITask"
 import Flag from "../../common/Flag"
-import Filter from "../../common/Filter"
 import AppAction from "../../common/AppAction"
-
-const initialState = {
-  value: [
-    {id: 2, name: 'Learn React', flag: Flag.done },
-    {id: 1, name: 'Learn Redux', flag: Flag.unfinished},
-    {id: 0, name: 'Build something fun!', flag: Flag.done}
-  ],
-  filters: {
-    query: '',
-    filter: Filter.all
-  }
-}
 
 const nextTaskId = (tasks: ITask[]) => {
   const maxId = tasks.reduce((maxId, task) => Math.max(task.id, maxId), -1)
   return maxId + 1
 }
 
+const initialState = {
+  value: new Array<ITask>()
+}
+
 export const TaskReducer = (state = initialState, action: any) => {
+  var newState = state
   switch (action.type) {
     case AppAction.taskAdded: {
       let name = String(action.value)
-      return {
+      newState = {
         ...state,
         value: [
           {
@@ -35,10 +27,11 @@ export const TaskReducer = (state = initialState, action: any) => {
           ...state.value
         ]
       }
+      break
     }
     case AppAction.taskFlagChanged: {
       let id = Number(action.value)
-      return {
+      newState = {
         ...state,
         value: state.value.map(task => {
           if (task.id !== id) {
@@ -50,28 +43,21 @@ export const TaskReducer = (state = initialState, action: any) => {
           }
         })
       }
+      break
     }
-    case AppAction.taskSearched: {
-      let query = String(action.value)
-      return {
+    case AppAction.taskRemoved: {
+      let id = Number(action.value)
+      newState = {
         ...state,
-        filters: {
-          ...state.filters,
-          query: query
-        }
+        value: state.value.filter((item) => {
+          return item.id != id
+        })
       }
-    }
-    case AppAction.taskFiltered: {
-      let filter = action.value as Filter
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          filter: filter
-        }
-      }
+      break
     }
     default:
-      return state
+      newState = state
+      break
   }
+  return newState
 }

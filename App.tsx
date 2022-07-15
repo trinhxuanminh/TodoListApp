@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import HomeView from './src/components/Home/HomeView';
 import { Provider } from 'react-redux';
-import Store from './src/features/store';
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from './src/features/configureStore';
 
 const App = () => {
-const store = Store()
 
   return (
     <Provider
       store = {store}
     >
-      <HomeView/>
+      <PersistGate
+        loading = {null}
+        persistor = {persistor}
+      >
+        <HomeView/>
+      </PersistGate>
     </Provider>
   )
 }

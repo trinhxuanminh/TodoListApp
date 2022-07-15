@@ -110,6 +110,10 @@ const StyleHome = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6
+  },
+  removeImage: {
+    width: 20,
+    height: 20
   }
 });
 

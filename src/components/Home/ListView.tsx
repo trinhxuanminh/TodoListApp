@@ -3,7 +3,8 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Text
+  Text,
+  Image
 } from "react-native";
 import AppTheme from "../../theme";
 import Flag from "../../common/Flag";
@@ -19,14 +20,15 @@ const ListView = (props: any) => {
 
   const taskFilters = () => {
     let listTask: ITask[] = props.data.tasks.value
-    let query = props.data.tasks.filters.query
-    let filter = props.data.tasks.filters.filter
+    let query = props.data.filters.query
+    let filter = props.data.filters.filter
     return service.filters(listTask, filter, query)
   }
 
   const service: Service = TaskService  //MockService
   const listTask = taskFilters()
-  const taskChangeFlag = props.taskChangeFlag
+  const taskFlagChanged = props.taskFlagChanged
+  const taskRemoved = props.taskRemoved
 
   return (
     <View
@@ -40,7 +42,7 @@ const ListView = (props: any) => {
         keyExtractor = {(item) => String(item.id)}
         renderItem = {({item}) => (
           <TouchableOpacity
-            onPress = {() => taskChangeFlag(item.id)}
+            onPress = {() => taskFlagChanged(item.id)}
           >
             <View
               style = {AppTheme.StyleHome.taskItem}
@@ -55,6 +57,14 @@ const ListView = (props: any) => {
               >
                 {item.name}
               </Text>
+              <TouchableOpacity
+                onPress = {() => taskRemoved(item.id)}
+              >
+                <Image
+                  style = {AppTheme.StyleHome.removeImage}
+                  source = {require('../../assets/image/removeTask.png')}
+                />
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         )}
@@ -71,8 +81,12 @@ export default connect(
   },
   dispatch => {
     return {
-      taskChangeFlag: (id: any) => dispatch({
+      taskFlagChanged: (id: any) => dispatch({
         type: AppAction.taskFlagChanged,
+        value: id
+      }),
+      taskRemoved: (id: any) => dispatch({
+        type: AppAction.taskRemoved,
         value: id
       })
     }
