@@ -13,19 +13,29 @@ import {
 } from "react-native-material-menu";
 import Filter from "../../common/Filter";
 import AppTheme from "../../theme";
-import { connect } from "react-redux";
-import AppAction from "../../common/AppAction";
 import AppColor from "../../assets/AppColor";
+import { 
+  useSelector,
+  useDispatch
+} from "react-redux";
+import { filtered } from "../../reducers/filters/filtersSlice";
 
-const FilterView = (props: any) => {
+const FilterView = () => {
 
-  const filter = props.data.filters.filter
-  const filterTask = props.filterTask
+  const filter = useSelector((state: any) => state.filters.filter)
   const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
   const hideMenu = () => setVisible(false)
 
   const showMenu = () => setVisible(true)
+
+  const filterTask = (filter: Filter) => {
+    const action = filtered({
+      filter: filter
+    })
+    dispatch(action);
+  }
 
   const selectMenu = (filter: Filter) => {
     hideMenu()
@@ -98,18 +108,4 @@ const FilterView = (props: any) => {
   )
 }
 
-export default connect(
-  state => {
-    return {
-      data: state
-    }
-  },
-  dispatch => {
-    return {
-      filterTask: (filter: any) => dispatch({
-        type: AppAction.filtered,
-        value: filter
-      })
-    }
-  }
-)(FilterView)
+export default FilterView

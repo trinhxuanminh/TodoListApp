@@ -1,6 +1,7 @@
+import React from "react";
 import ITask from "../../common/ITask"
 import Flag from "../../common/Flag"
-import AppAction from "../../common/AppAction"
+import { createSlice } from "@reduxjs/toolkit";
 
 const nextTaskId = (tasks: ITask[]) => {
   const maxId = tasks.reduce((maxId, task) => Math.max(task.id, maxId), -1)
@@ -11,12 +12,13 @@ const initialState = {
   value: new Array<ITask>()
 }
 
-export const TaskReducer = (state = initialState, action: any) => {
-  var newState = state
-  switch (action.type) {
-    case AppAction.taskAdded: {
-      let name = String(action.value)
-      newState = {
+const tasksSlice = createSlice({
+  name: "tasks",
+  initialState: initialState,
+  reducers: {
+    added(state, action) {
+      let name = String(action.payload.name)
+      return {
         ...state,
         value: [
           {
@@ -27,11 +29,10 @@ export const TaskReducer = (state = initialState, action: any) => {
           ...state.value
         ]
       }
-      break
-    }
-    case AppAction.taskFlagChanged: {
-      let id = Number(action.value)
-      newState = {
+    },
+    flagChanged(state, action) {
+      let id = Number(action.payload.id)
+      return {
         ...state,
         value: state.value.map(task => {
           if (task.id !== id) {
@@ -43,21 +44,19 @@ export const TaskReducer = (state = initialState, action: any) => {
           }
         })
       }
-      break
-    }
-    case AppAction.taskRemoved: {
-      let id = Number(action.value)
-      newState = {
+    },
+    removed(state, action) {
+      let id = Number(action.payload.id)
+      return {
         ...state,
         value: state.value.filter((item) => {
           return item.id != id
         })
       }
-      break
     }
-    default:
-      newState = state
-      break
   }
-  return newState
-}
+})
+
+const { actions, reducer } = tasksSlice
+export const { added, flagChanged, removed } = actions
+export const tasksReducer = reducer

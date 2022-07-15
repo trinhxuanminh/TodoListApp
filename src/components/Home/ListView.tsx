@@ -8,28 +8,44 @@ import {
 } from "react-native";
 import AppTheme from "../../theme";
 import Flag from "../../common/Flag";
-import { connect } from "react-redux";
-import AppAction from "../../common/AppAction";
 import ITask from "../../common/ITask";
 import AppColor from "../../assets/AppColor";
 import Service from "../../untils/Service";
 import TaskService from "../../untils/TaskService";
 import MockService from "../../untils/MockService";
 import EmptyView from "../EmptyView";
+import { 
+  useSelector,
+  useDispatch
+} from "react-redux";
+import { flagChanged, removed } from "../../reducers/tasks/tasksSlice";
 
 const ListView = (props: any) => {
 
   const taskFilters = () => {
-    let listTask: ITask[] = props.data.tasks.value
-    let query = props.data.filters.query
-    let filter = props.data.filters.filter
+    let listTask: ITask[] = useSelector((state: any) => state.tasks.value)
+    let query = useSelector((state: any) => state.filters.query)
+    let filter = useSelector((state: any) => state.filters.filter)
     return service.filters(listTask, filter, query)
   }
 
   const service: Service = TaskService  //MockService
+  const dispatch = useDispatch()
   const listTask = taskFilters()
-  const taskFlagChanged = props.taskFlagChanged
-  const taskRemoved = props.taskRemoved
+
+  const taskFlagChanged = (id: number) => {
+    const action = flagChanged({
+      id: id
+    })
+    dispatch(action)
+  }
+
+  const taskRemoved = (id: number) => {
+    const action = removed({
+      id: id
+    })
+    dispatch(action)
+  }
 
   return (
     <View
@@ -77,22 +93,4 @@ const ListView = (props: any) => {
   )
 }
 
-export default connect(
-  state => {
-    return {
-      data: state
-    }
-  },
-  dispatch => {
-    return {
-      taskFlagChanged: (id: any) => dispatch({
-        type: AppAction.taskFlagChanged,
-        value: id
-      }),
-      taskRemoved: (id: any) => dispatch({
-        type: AppAction.taskRemoved,
-        value: id
-      })
-    }
-  }
-)(ListView)
+export default ListView

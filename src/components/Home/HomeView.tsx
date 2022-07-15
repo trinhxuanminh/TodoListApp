@@ -13,12 +13,22 @@ import TopView from './TopView';
 import SearchView from './SearchView';
 import FilterView from './FilterView';
 import ListView from './ListView';
-import { connect } from 'react-redux';
-import AppAction from '../../common/AppAction';
+import { useDispatch } from 'react-redux';
+import { added } from '../../reducers/tasks/tasksSlice';
 
-const HomeView = (props: any) => {
+const HomeView = () => {
 
-  const taskAdded = props.taskAdded
+  const dispatch = useDispatch()
+
+  const taskAdded = (name: string | undefined) => {
+    if (!name || /^\s*$/.test(name)) {
+      return
+    }
+    const action = added({
+      name: name
+    })
+    dispatch(action)
+  }
 
   const showAddView = () => {
     Alert.prompt(
@@ -62,16 +72,4 @@ const HomeView = (props: any) => {
   )
 }
 
-export default connect(
-  state => {
-    return {}
-  },
-  dispatch => {
-    return {
-      taskAdded: (name: any) => dispatch({
-        type: AppAction.taskAdded,
-        value: name
-      })
-    }
-  }
-)(HomeView)
+export default HomeView

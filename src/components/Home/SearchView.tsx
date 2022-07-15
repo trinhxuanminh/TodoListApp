@@ -7,14 +7,23 @@ import {
 } from "react-native";
 import AppTheme from "../../theme";
 import AppText from "../../common/AppText";
-import { connect } from "react-redux";
-import AppAction from "../../common/AppAction";
 import AppColor from "../../assets/AppColor";
+import { 
+  useSelector,
+  useDispatch
+} from "react-redux";
+import { searched } from "../../reducers/filters/filtersSlice";
 
 const SearchView = (props: any) => {
 
-  const query = props.data.filters.query
-  const searchTask = props.searchTask
+  const dispatch = useDispatch()
+  const query = useSelector((state: any) => state.filters.query)
+  const searchTask = (query: string) => {
+    const action = searched({
+      query: query
+    })
+    dispatch(action);
+  }
 
   return (
     <View
@@ -37,18 +46,4 @@ const SearchView = (props: any) => {
   )
 }
 
-export default connect(
-  state => {
-    return {
-      data: state
-    }
-  },
-  dispatch => {
-    return {
-      searchTask: (input: any) => dispatch({
-        type: AppAction.filtersSearched,
-        value: input
-      })
-    }
-  }
-)(SearchView)
+export default SearchView
