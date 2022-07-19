@@ -29,7 +29,8 @@ const ListView = (props: any) => {
     return service.filters(listTask, filter, query)
   }
 
-  const service: Service = TaskService  //MockService
+  const service: Service = TaskService
+  // const service: Service = MockService
   const dispatch = useDispatch()
   const listTask = taskFilters()
 

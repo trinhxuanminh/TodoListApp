@@ -1,13 +1,13 @@
 import {
   StyleSheet
 } from 'react-native';
-import Color from '../assets/AppColor';
+import AppColor from '../assets/AppColor';
 
 const StyleHome = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: Color.backgroundColor
+    backgroundColor: AppColor.backgroundColor
   },
   titleView: {
     height: 36,

@@ -1,5 +1,7 @@
 import React from "react";
-import { SafeAreaView, Text, View, StyleSheet } from "react-native";
+import { SafeAreaView, Text, View, StyleSheet, StatusBar } from "react-native";
+import AppTheme from "../theme";
+import AppColor from "../assets/AppColor";
 
 const A = () => {
   return (
@@ -35,18 +37,14 @@ const B = () => {
 
 const MockView = () => {
   return (
-    <View
-      style = {
-        {
-          flex: 1,
-          marginHorizontal: 16,
-          backgroundColor: "red"
-        }
-      }
+    <SafeAreaView
+      style = {AppTheme.StyleHome.safeAreaView}
     >
-      <A/>
-      <B/>
-    </View>
+      <StatusBar
+        backgroundColor = {AppColor.backgroundColor}
+        barStyle = {"light-content"}
+      />
+    </SafeAreaView>
   )
 }
 
